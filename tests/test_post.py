@@ -1,6 +1,6 @@
 import unittest
-from app.models import post, user
-Post = post.Post
+from app.models import Post, User
+
 
 class PostTest(unittest.TestCase):
     '''
@@ -16,5 +16,3 @@ class PostTest(unittest.TestCase):
     def test_instance(self):
         self.assertTrue(isinstance(self.new_post,Post))
 
-if __name__ == '__main__':
-    unittest.main()
