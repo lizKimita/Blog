@@ -1,6 +1,5 @@
 import unittest
-from app.models import comment, user
-Comment = comment.Comment
+from app.models import Comment, User
 
 class CommentTest(unittest.TestCase):
     '''
