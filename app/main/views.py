@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect,url_for,abort
 from . import main
 from ..models import Post, User
-from .forms import PostForm, CommentsForm
+from .forms import PostForm, CommentsForm, UpdateProfile
 from flask_login import login_required, current_user
 from .. import db,photos
 import markdown2 
@@ -26,6 +26,7 @@ def post():
     return render_template('post.html')
 
 @main.route('/post/new', methods = ['GET','POST'])
+@login_required
 def new_post():
     form = PostForm()
     new_post = None
