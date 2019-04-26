@@ -14,16 +14,22 @@ def index():
     View root page function that returns the index page and its data
     '''
 
+    post_list = Post.query.filter_by().all()
+
     title = "Learn cool things from others"
-    return render_template('index.html', title = title)
+    return render_template('index.html', title = title, post_data = post_list)
 
-@main.route('/post/')
-def post():
+@main.route('/post/<int:id>', methods = ['GET'])
+def post(id):
+    id=id
+    my_post = Post.query.get(id)
 
-    '''
-    View post page function that returns the post details page and its data
-    '''
-    return render_template('post.html')
+    if id is None:
+        abort(404)
+
+    full_post = Post.query.filter_by(id=id).all()
+
+    return render_template('post.html', post_data = my_post, id=id, full_post = full_post)
 
 @main.route('/post/new', methods = ['GET','POST'])
 @login_required

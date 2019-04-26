@@ -1,10 +1,27 @@
-{% macro displayPostList(post_list) %}
+{% macro displayPostList(posts) %}
 
-    {% for post in post_list %}
+    {% for post in posts %}
     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-        <h2> {{ post.post_title}} </h2>
+        <h2> {{ post.title}} </h2>
         <p> {{ post.post | truncate(300) }}</p>
+        <p>{{post.posted.strftime('%Y-%m-%d')}}</p>
+        <p>{{post.user.username}}</p>
+        <a href="/post/{{post.id}}"> Read Full Blog Post</a>
+    </div>
+    {% endfor %}
 
+{% endmacro %}
+
+
+{% macro displayFullPost(full_posts) %}
+
+    {% for posts in full_posts %}
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        <h2> {{ posts.title}} </h2>
+        <p> {{ posts.post}}</p>
+        <p>{{posts.posted.strftime('%Y-%m-%d')}}</p>
+        <p>{{posts.user.username}}</p>
+    </div>
     {% endfor %}
 
 {% endmacro %}

@@ -8,6 +8,18 @@ from datetime import datetime
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+class Role(db.Model):
+    __tablename__ = 'roles'
+
+    id = db.Column(db.Integer,primary_key = True)
+    name = db.Column(db.String(255))
+
+    users = db.relationship('User', backref = 'role', lazy = "dynamic")
+    
+
+    def __repr__(self):
+        return f'User {self.name}'
+
 
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
@@ -37,19 +49,6 @@ class User(UserMixin,db.Model):
     def __repr__(self):
         return f'User {self.username}'
 
-   
-class Role(db.Model):
-    __tablename__ = 'roles'
-
-    id = db.Column(db.Integer,primary_key = True)
-    name = db.Column(db.String(255))
-
-    users = db.relationship('User', backref = 'role', lazy = "dynamic")
-    
-
-    def __repr__(self):
-        return f'User {self.name}'
-
 
 class Post(db.Model):
     __tablename__ = 'posts'
@@ -60,7 +59,6 @@ class Post(db.Model):
     posted = db.Column(db.DateTime,default=datetime.utcnow)
 
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
-
 
 
     def save_post(self):
