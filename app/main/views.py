@@ -31,12 +31,12 @@ def new_post():
     new_post = None
 
     if form.validate_on_submit():
-        post_title = form.title.data
+        post_title = form.post_title.data
         post = form.post.data
 
-        new_post = Post(post_title = post_title, post = post)
+        new_post = Post(title = post_title, post = post)
 
-        new_post.save_pitch()
+        new_post.save_post()
 
         return redirect(url_for('.index'))
 
