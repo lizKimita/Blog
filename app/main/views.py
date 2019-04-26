@@ -3,7 +3,7 @@ from . import main
 from ..models import Post, User
 from .forms import PostForm, CommentsForm, UpdateProfile
 from flask_login import login_required, current_user
-from .. import db,photos
+from .. import db, photos
 import markdown2 
 
 # Views
@@ -52,7 +52,7 @@ def profile(uname):
         abort(404)
 
     return render_template("profile/profile.html", user = user)
-    
+
 
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
 @login_required
@@ -78,6 +78,7 @@ def update_profile(uname):
 def update_pic(uname):
     user = User.query.filter_by(username = uname).first()
     if 'photo' in request.files:
+        
         filename = photos.save(request.files['photo'])
         path = f'photos/{filename}'
         user.profile_pic_path = path
