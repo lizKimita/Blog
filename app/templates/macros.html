@@ -1,9 +1,9 @@
 {% macro displayPostList(post_list) %}
 
     {% for post in post_list %}
-    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 review-card">
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
         <h2> {{ post.post_title}} </h2>
-        <p> {{ post.post | truncate(30) }}</p>
+        <p> {{ post.post | truncate(300) }}</p>
 
     {% endfor %}
 
