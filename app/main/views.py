@@ -122,7 +122,6 @@ def comment(id):
         abort(404)
 
     if comment_form.validate_on_submit():
-        title = comment_form.title.data
         comments = comment_form.comment.data
         username = comment_form.author.data
         new_comment = Comment(comments = comments,post_id = id, username= username)
@@ -132,7 +131,8 @@ def comment(id):
         return redirect(url_for('.comment',id=id))
 
     
-    post_comments = Comment.query.filter_by(post_id=id).all()
+    post_comments = Comment.query.filter_by(post_id=id).order_by(Comment.posted.desc()).all()
+    # post_list = Post.query.order_by(Comment.posted.desc()).all()
 
     title = f'{post.title} comment'
     return render_template("new_comment.html",post = post, id=id,title = title,comment_form = comment_form, post_comments = post_comments)

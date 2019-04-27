@@ -8,9 +8,8 @@ class PostForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class CommentsForm(FlaskForm):
-    title = StringField('Post title',validators=[Required()])
-    comment = TextAreaField('Comment')
     author = StringField('Your Name',validators = [Required()])
+    comment = TextAreaField('Comment')
     submit = SubmitField('Submit')
 
 class UpdateProfile(FlaskForm):
