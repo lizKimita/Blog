@@ -33,6 +33,8 @@ class User(UserMixin,db.Model):
     pass_secure = db.Column(db.String(255))
 
     posts = db.relationship('Post', backref = 'user', lazy = "dynamic")
+    comments = db.relationship('Comment',backref = 'user',lazy = "dynamic")
+
 
     @property
     def password(self):
@@ -77,4 +79,32 @@ class Post(db.Model):
     def get_post(cls,id):
         post = Post.query.filter_by(id=id).first()
 
-        return post  
+        return post
+
+class Comment(db.Model):
+    
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer,primary_key = True)
+    comments= db.Column(db.String)
+    post_id = db.Column(db.Integer)
+    posted = db.Column(db.DateTime,default=datetime.utcnow)
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    
+
+    def save_comment(self):
+        '''
+        Function that saves each post's comments
+        '''
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def clear_comments(cls):
+        Comment.all_comments.clear()
+
+    @classmethod
+    def get_comments(cls,id):
+        comments = Comment.query.filter_by(post_id=id).all()
+
+        return comments

@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect,url_for,abort
 from . import main
-from ..models import Post, User
+from ..models import Post, User, Comment
 from .forms import PostForm, CommentsForm, UpdateProfile
 from flask_login import login_required, current_user
 from .. import db, photos
@@ -104,3 +104,25 @@ def update_pic(uname):
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
 
+@main.route("/post/new/comment/<int:id>",methods=["GET","POST"])
+def comment(id):
+    
+    post = Post.query.get(id)
+    comment_form = CommentsForm()
+
+    if id is None:
+        abort(404)
+
+    if comment_form.validate_on_submit():
+        comments = comment_form.comments.data
+        new_comment = Comment(comments = comments, post_id = id)
+
+        #save
+        new_comment.save_comment()
+        return redirect(url_for('.comment',id=id))
+
+    
+    all_comments = Comment.query.filter_by(post_id=id).all()
+
+    title = f'{post.title} comment'
+    return render_template("new_comment.html",post = post, id=id,title = title, comment_form = comment_form, all_comments = all_comments)

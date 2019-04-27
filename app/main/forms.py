@@ -9,7 +9,8 @@ class PostForm(FlaskForm):
 
 class CommentsForm(FlaskForm):
     title = StringField('Post title',validators=[Required()])
-    comment = TextAreaField('Comment', validators=[Required()])
+    comment = TextAreaField('Comment',validators=[Required()])
+    author = StringField('Your Name',validators = [Required()])
     submit = SubmitField('Submit')
 
 class UpdateProfile(FlaskForm):

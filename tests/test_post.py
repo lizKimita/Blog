@@ -11,8 +11,9 @@ class PostTest(unittest.TestCase):
         '''
         Set up method that will run before every Test
         '''
-        self.new_post = Post('The best way to learn Python', 'Watch alot of Youtube videos', 'shiko kimita', '02/04/2019')
+        self.new_post = Post(post = 'The best way to learn Python')
 
     def test_instance(self):
         self.assertTrue(isinstance(self.new_post,Post))
+
 
