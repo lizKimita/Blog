@@ -63,6 +63,14 @@ def new_post():
     title = 'New Post'
     return render_template('new_post.html', title = title, post_form = form, new_post = new_post)
 
+@main.route('/post/<int:id>')
+def single_post(id):
+    post = Post.query.get(id)
+    if post is None:
+        abort(404)
+    format_post = markdown2.markdown(post.post,extras=["code-friendly", "fenced-code-blocks"])
+    return render_template('post.html',post = post,format_post=format_post)
+
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
@@ -114,15 +122,25 @@ def comment(id):
         abort(404)
 
     if comment_form.validate_on_submit():
-        comments = comment_form.comments.data
-        new_comment = Comment(comments = comments, post_id = id)
+        title = comment_form.title.data
+        comments = comment_form.comment.data
+        username = comment_form.author.data
+        new_comment = Comment(comments = comments,post_id = id, username= username)
 
         #save
         new_comment.save_comment()
         return redirect(url_for('.comment',id=id))
 
     
-    all_comments = Comment.query.filter_by(post_id=id).all()
+    post_comments = Comment.query.filter_by(post_id=id).all()
 
     title = f'{post.title} comment'
-    return render_template("new_comment.html",post = post, id=id,title = title, comment_form = comment_form, all_comments = all_comments)
+    return render_template("new_comment.html",post = post, id=id,title = title,comment_form = comment_form, post_comments = post_comments)
+
+@main.route('/comment/<int:id>')
+def single_comment(id):
+    comment = Comment.query.get(id)
+    if comment is None:
+        abort(404)
+    format_comment = markdown2.markdown(comment.comment,extras=["code-friendly", "fenced-code-blocks"])
+    return render_template('comment.html',comment = comment,format_comment=format_comment)

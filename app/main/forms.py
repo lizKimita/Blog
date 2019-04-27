@@ -4,12 +4,12 @@ from wtforms.validators import Required
 
 class PostForm(FlaskForm):
     post_title = StringField('Post title',validators=[Required()])
-    post = TextAreaField('Post Content', validators=[Required()])
+    post = TextAreaField('Post Content')
     submit = SubmitField('Submit')
 
 class CommentsForm(FlaskForm):
     title = StringField('Post title',validators=[Required()])
-    comment = TextAreaField('Comment',validators=[Required()])
+    comment = TextAreaField('Comment')
     author = StringField('Your Name',validators = [Required()])
     submit = SubmitField('Submit')
 

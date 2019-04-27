@@ -3,7 +3,7 @@
     {% for post in posts %}
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
             <h2> {{post.title}} </h2>
-            <p> {{post.post | truncate(300)}}</p>
+            <p> <a href="{{url_for('main.single_post',id=post.id)}}"></a>{{post.post | truncate(300)}}</p>
             <p>{{post.posted.strftime('%Y-%m-%d')}}</p>
             <p>{{post.user.username}}</p>
             <a href="/post/{{post.id}}"> Read Full Blog Post</a>        
@@ -19,10 +19,12 @@
     {% for posts in full_posts %}
     <div class="container">
         <div class="row">
-            <h2> {{ posts.title}} </h2>
-            <p> {{ posts.post}}</p>
+
+            <h2> {{posts.header}}</h2>
+            <p> {{posts.post}}</p>
             <p>{{posts.posted.strftime('%Y-%m-%d')}}</p>
             <p>{{posts.user.username}}</p>
+            <a href="/post/new/comment/{{posts.id}}"> Read Comments</a>  
         </div>
     </div>
     {% endfor %}
@@ -34,7 +36,26 @@
         <h2>{{post_latest.title}}</h2>
         <p> {{post_latest.post}}</p>
         <p>{{post_latest.posted.strftime('%Y-%m-%d')}}</p>
-        <p>{{post_.user.username}}</p>
+        <p>{{post_latest.user.username}}</p>
 
 {% endmacro %}
 
+{% macro displayComments(post_comments) %}
+{% if post_comments %}
+    {% for comment in post_comments %}
+    <div class="thumbnail">
+        <div class="caption">
+            <div class="card" style="width: 40rem;">
+                <div class="card-body"> 
+                    <p class="card-text"><a href="{{url_for('main.single_comment',id=comment.id)}}"></a>{{comment.comments|capitalize}}</p>
+                    <p class="card-subtitle mb-2 text-muted">Posted by:{{comment.username}}</p>
+                    <p class="card-subtitle mb-2 text-muted"> Posted on: {{comment.posted.strftime('%Y-%m-%d')}} </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <h3 class ="text-center" style="font-size:200%"> This Post has no Comment </h3>
+{% endif %}
+{% endmacro %}

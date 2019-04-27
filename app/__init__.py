@@ -46,6 +46,6 @@ def create_app(config_name):
   
     mail.init_app(app)
 
-    # simple.init_app(app)
+    simple.init_app(app)
 
     return app

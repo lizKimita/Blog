@@ -1,14 +1,16 @@
 {% extends 'base.html'%}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import 'macros.html' as macro %}
 
 {% block content %}
     <div class="container">
-
         <div class="col-md-8">
-            {{ wtf.quick_form(post_form) }}
+            {{post.heading}}
+            {{ wtf.quick_form(comment_form) }}
             {{simplemde.load}}
+            
+            {{macro.displayComments(post_comments)}}
         </div>
-
     </div>
 
 {% endblock %}
