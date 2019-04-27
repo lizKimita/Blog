@@ -14,10 +14,23 @@ def index():
     View root page function that returns the index page and its data
     '''
 
-    post_list = Post.query.filter_by().all()
+    post_list = Post.query.order_by(Post.posted.desc()).all()
 
     title = "Learn cool things from others"
     return render_template('index.html', title = title, post_data = post_list)
+
+@main.route('/latest_post')
+def latestpost():
+
+    '''
+    view function that returns the latest single blog post
+    '''
+
+    post_latest = Post.query.order_by(Post.id.desc()).first()
+
+
+    return render_template('latest.html',post_latest = post_latest)
+
 
 @main.route('/post/<int:id>', methods = ['GET'])
 def post(id):
@@ -41,7 +54,7 @@ def new_post():
         post_title = form.post_title.data
         post = form.post.data
 
-        new_post = Post(title = post_title, post = post)
+        new_post = Post(title = post_title, post = post, user = current_user)
 
         new_post.save_post()
 

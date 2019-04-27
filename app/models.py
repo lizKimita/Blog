@@ -57,7 +57,6 @@ class Post(db.Model):
     title = db.Column(db.String(255))
     post = db.Column(db.String())
     posted = db.Column(db.DateTime,default=datetime.utcnow)
-
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
 
 
