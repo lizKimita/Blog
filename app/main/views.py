@@ -78,7 +78,9 @@ def profile(uname):
     if user is None:
         abort(404)
 
-    return render_template("profile/profile.html", user = user)
+    myposts = Post.query.order_by(Post.posted.desc()).all()
+    
+    return render_template("profile/profile.html", user = user, myposts = myposts )
 
 
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
@@ -132,7 +134,7 @@ def comment(id):
 
     
     post_comments = Comment.query.filter_by(post_id=id).order_by(Comment.posted.desc()).all()
-    # post_list = Post.query.order_by(Comment.posted.desc()).all()
+
 
     title = f'{post.title} comment'
     return render_template("new_comment.html",post = post, id=id,title = title,comment_form = comment_form, post_comments = post_comments)

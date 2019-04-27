@@ -3,23 +3,30 @@
 {% block content %}
 <div class="container">
     <div class="well">
-        <div class="jumbotron">
+        <div class="jumbotron" style="text-align:center">
             <h3 class="nameuser"> {{user.username|capitalize}} </h3>
+            {% if user.bio %}
+            <p> <strong>{{user.bio}}</strong></p>
+        {%else%}
+            <p> {{user.username| capitalize}} has no bio </p>
+        {% endif %}
+        {% if user == current_user %}
+        <a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a>
+    {% endif %}
         </div>
     <div class="row">
-        <!-- displaying  Username-->
         <div class="col-md-6">
-            <!--Displaying user bio-->
-            {% if user.bio %}
-                <p> <strong>{{user.bio}}</strong></p>
-            {%else%}
-                <p> {{user.username| capitalize}} has no bio </p>
-            {% endif %}
-            {% if user == current_user %}
-                <a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a>
-            {% endif %}
-        </div>
-
+            <div>
+                <h1 style="text-decoration:underline"> <strong>My Blog Posts</strong></h1>
+                {% for posts in myposts %}
+                    {% if posts.user_id == current_user.id %}
+                        <h2>{{posts.title}}</h2>
+                        <p>{{posts.post}}</p>
+                        <p>{{posts.posted}}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>           
+                </div>
 
             <!--Display profile photo-->
         <div class="col-md-6">
@@ -38,6 +45,7 @@
             </form>
               {% endif %}
         </div>
+ 
         
 
     </div>
