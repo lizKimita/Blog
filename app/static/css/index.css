@@ -3,3 +3,12 @@ h2 {
     font-size: 250%;
     text-decoration: underline
 }
+#profile_jumbotron{
+    background-color: rgba(84, 139, 126, 0.329)
+}
+h1 {
+    font-family: 'Rancho', cursive;
+    font-size: 350%;
+    text-decoration: underline;
+    color: rgba(85, 34, 34, 0.959)
+}
