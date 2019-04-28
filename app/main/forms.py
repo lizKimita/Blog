@@ -16,6 +16,7 @@ class UpdateProfile(FlaskForm):
     bio = TextAreaField('Tell us about you.',validators = [Required()])
     submit = SubmitField('Submit')
 
-# class UpdatePost(FlaskForm):
-#     post = TextAreaField('Tell us about you.',validators = [Required()])
-#     submit = SubmitField('Submit')
+class UpdatePost(FlaskForm):
+    post_title = StringField('Post title',validators=[Required()])
+    post = TextAreaField('Edit your post here',validators = [Required()])
+    submit = SubmitField('Submit')

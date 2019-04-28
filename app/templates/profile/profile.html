@@ -4,29 +4,50 @@
 <div class="container">
     <div class="well">
         <div class="jumbotron" style="text-align:center">
-            <h3 class="nameuser"> {{user.username|capitalize}} </h3>
+            <h2 class="nameuser"> {{user.username|capitalize}} </h2>
             {% if user.bio %}
-            <p> <strong>{{user.bio}}</strong></p>
+            <p> <strong>{{user.bio|capitalize}}</strong></p>
         {%else%}
             <p> {{user.username| capitalize}} has no bio </p>
         {% endif %}
         {% if user == current_user %}
         <a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a>
+        <a class="btn btn-outline-info btn-md text-center"  href="{{url_for('main.new_post')}}"> Add a Post </a>
     {% endif %}
-        </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div>
-                <h1 style="text-decoration:underline"> <strong>My Blog Posts</strong></h1>
+        </div>           
+                <div class="row">
+                        <div class="col-md-6">
                 {% for posts in myposts %}
                     {% if posts.user_id == current_user.id %}
-                        <h2>{{posts.title}}</h2>
-                        <p>{{posts.post}}</p>
-                        <p>{{posts.posted}}</p>
-                    {% endif %}
-                {% endfor %}
-            </div>           
-                </div>
+                <div class="card text-center">
+                        <div class="card-header">
+                          <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                              <a class="nav-link active" href="/post/new/comment/{{posts.id}}">Read Comments</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{{url_for('main.update_post',uname=user.username)}}">Edit post</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/delete_post/{{posts.id}}">Delete Post</a>
+                            </li>
+                          </ul>
+                        </div>
+                        
+                        <div class="card-body">
+                          <h2 class="card-title">{{posts.title|capitalize}}</h2>
+                          <p class="card-text">{{posts.post|truncate(100)}}</p>
+                          <a href="/post/{{posts.id}}" class="btn btn-info">View full post</a>
+                          <hr>
+                          <p class="card-footer"><small class="text-muted"> Posted on: {{posts.posted.strftime('%Y-%m-%d')}}</small></p>
+                          
+                        </div>
+                      </div>
+                      {% endif %}
+                      {% endfor %}
+                    </div>
+                
+
 
             <!--Display profile photo-->
         <div class="col-md-6">

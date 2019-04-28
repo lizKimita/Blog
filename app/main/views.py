@@ -1,7 +1,7 @@
-from flask import render_template, request, redirect,url_for,abort
+from flask import render_template, request, redirect,url_for,abort, flash
 from . import main
 from ..models import Post, User, Comment
-from .forms import PostForm, CommentsForm, UpdateProfile
+from .forms import PostForm, CommentsForm, UpdateProfile, UpdatePost
 from flask_login import login_required, current_user
 from .. import db, photos
 import markdown2 
@@ -63,6 +63,34 @@ def new_post():
     title = 'New Post'
     return render_template('new_post.html', title = title, post_form = form, new_post = new_post)
 
+@main.route('/delete_post/<id>', methods=['GET', 'POST'])
+@login_required
+def delete_post(id):
+    post = Post.get_post(id)
+
+    db.session.delete(post)
+    db.session.commit()
+
+    
+    flash('Post has been deleted')
+     
+    return redirect(url_for('main.index'))
+    
+
+# @main.route('/delete_comment/<id>/<post_id>', methods=['GET', 'POST'])
+@main.route('/delete_comment/<id>', methods=['GET', 'POST'])
+@login_required
+# def delete_comment(id, post_id):
+def delete_comment(id):
+    comment = Comment.get_comment(id)
+
+    db.session.delete(comment)
+    db.session.commit()
+
+    flash('Comment has been deleted') 
+
+    return redirect(url_for('main.index'))
+
 @main.route('/post/<int:id>')
 def single_post(id):
     post = Post.query.get(id)
@@ -79,7 +107,7 @@ def profile(uname):
         abort(404)
 
     myposts = Post.query.order_by(Post.posted.desc()).all()
-    
+
     return render_template("profile/profile.html", user = user, myposts = myposts )
 
 
@@ -101,6 +129,28 @@ def update_profile(uname):
         return redirect(url_for('.profile',uname=user.username))
 
     return render_template('profile/update.html',form =form)
+
+@main.route('/user/<uname>/update_post',methods = ['GET','POST'])
+@login_required
+def update_post(uname):
+
+    post = Post.query.filter_by(id=id).first()
+
+    form = UpdatePost()
+
+    if form.validate_on_submit():
+        title = form.post_title.data
+        post = form.post.data
+
+        # post = Post(title = post_title, post = post, user = current_user)
+
+        db.session.add(post)
+        db.session.commit()
+
+        return redirect(url_for('.profile'))
+
+    title = 'Update Post'
+    return render_template('update_post.html', title = title, update_form = form, post = post)
 
 @main.route('/user/<uname>/update/pic',methods= ['POST'])
 @login_required

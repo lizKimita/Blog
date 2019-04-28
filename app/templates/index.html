@@ -4,12 +4,22 @@
 
 
 {% block content %}
-    New Posts
+    {% for alert in get_flashed_messages() %}
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ alert }}
+    </div>
+{% endfor %}
+<div class="container-fluid" >
+    <div class="jumbotron">
 
-    <a class="btn btn-danger btn-md text-center"  href="{{url_for('main.new_post')}}"> Add a Post </a>
-      
-            {{ macro.displayPostList(post_data)}}
-  
+        <img src="https://s3.amazonaws.com/gv2016wp/wp-content/uploads/20150624200319/150624-The_Current_state_of_blogging_1200x628-01.png" alt="" >
+    </div>  
+    <hr>
+        {{ macro.displayPostList(post_data)}}
+    
+        
+</div>
 {% endblock %}
 
 
