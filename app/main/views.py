@@ -196,3 +196,9 @@ def single_comment(id):
         abort(404)
     format_comment = markdown2.markdown(comment.comment,extras=["code-friendly", "fenced-code-blocks"])
     return render_template('comment.html',comment = comment,format_comment=format_comment)
+
+@main.route('/subscription')
+def subscription():
+    
+
+    return render_template('index.html')

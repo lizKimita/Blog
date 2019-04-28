@@ -21,17 +21,26 @@
     </div>     
 </div>
 <footer>
-        <div class="container-fluid text-center subscribe" id="subscribe-form">
+    <div class="container-fluid text-center">
+        <div class="jumbotron" style="background-color:rgba(211, 211, 211, 0.322)">
             <h2>Be the FIRST to know!</h2>
             <h4>Enter your email address to get the latest posts</h4>
-            <form action="" method="POST">
+                <form action="" method="POST">
                 <div class="row">
                     <div class="col-md-12">
-                    
+                        <label for="Name" >
+                            <input type="text" placeholder="Enter your First Name!"class="form-control">
+                        </label>
+                        <label for="Email Address">
+                            <input type="text" placeholder="Email Address"class="form-control">
+                        </label>
                     </div>
                 </div>
             </form>
+            <br>
+            <button type="submit" class="btn btn-info">Subscribe</button>
         </div>
+    </div>
     </footer>
 {% endblock %}
 
