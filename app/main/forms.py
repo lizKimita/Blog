@@ -20,3 +20,8 @@ class UpdatePost(FlaskForm):
     post_title = StringField('Post title',validators=[Required()])
     post = TextAreaField('Edit your post here',validators = [Required()])
     submit = SubmitField('Submit')
+
+class EmailForm(FlaskForm):
+    name = StringField('Name',validators=[Required()])
+    email = StringField('Email Address',validators=[Required()])
+    subscribe = SubmitField('Subscribe')
