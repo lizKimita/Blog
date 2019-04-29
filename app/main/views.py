@@ -4,7 +4,9 @@ from ..models import Post, User, Comment
 from .forms import PostForm, CommentsForm, UpdateProfile, UpdatePost
 from flask_login import login_required, current_user
 from .. import db, photos
-import markdown2 
+import markdown2
+import requests
+import json 
 
 # Views
 @main.route('/')
@@ -13,11 +15,11 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
-
+    random = requests.get('http://quotes.stormconsultancy.co.uk/random.json').json()
     post_list = Post.query.order_by(Post.posted.desc()).all()
 
     title = "Learn cool things from others"
-    return render_template('index.html', title = title, post_data = post_list)
+    return render_template('index.html', title = title, post_data = post_list, random = random)
 
 @main.route('/latest_post')
 def latestpost():
@@ -140,9 +142,6 @@ def update_post(id):
         post.title = form.post_title.data
         post.post = form.post.data
 
-        # post = Post(title = post_title, post = post, user = current_user)
-
-        # db.session.add(post)
         db.session.commit()
 
         return redirect(url_for('.index', id=id))

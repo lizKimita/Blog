@@ -12,3 +12,7 @@ h1 {
     text-decoration: underline;
     color: rgba(85, 34, 34, 0.959)
 }
+.random {
+    font-family: 'Rancho', cursive;
+    font-size: 150%;
+}
