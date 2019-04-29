@@ -77,19 +77,17 @@ def delete_post(id):
     return redirect(url_for('main.index'))
     
 
-# @main.route('/delete_comment/<id>/<post_id>', methods=['GET', 'POST'])
 @main.route('/delete_comment/<id>', methods=['GET', 'POST'])
 @login_required
-# def delete_comment(id, post_id):
 def delete_comment(id):
-    comment = Comment.get_comment(id)
+    comment = Comment.query.filter_by(id=id).first()
+    post_id = comment.post
 
-    db.session.delete(comment)
-    db.session.commit()
+    Comment.delete_comment(id)
 
-    flash('Comment has been deleted') 
+    flash('Comment has been deleted!') 
 
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.index', id =post_id ))
 
 @main.route('/post/<int:id>')
 def single_post(id):
@@ -130,27 +128,30 @@ def update_profile(uname):
 
     return render_template('profile/update.html',form =form)
 
-@main.route('/user/<uname>/update_post',methods = ['GET','POST'])
+@main.route('/post/<int:id>/update_post',methods = ['GET','POST'])
 @login_required
-def update_post(uname):
+def update_post(id):
 
     post = Post.query.filter_by(id=id).first()
 
-    form = UpdatePost()
+    form = PostForm()
 
     if form.validate_on_submit():
-        title = form.post_title.data
-        post = form.post.data
+        post.title = form.post_title.data
+        post.post = form.post.data
 
         # post = Post(title = post_title, post = post, user = current_user)
 
-        db.session.add(post)
+        # db.session.add(post)
         db.session.commit()
 
-        return redirect(url_for('.profile'))
+        return redirect(url_for('.index', id=id))
 
-    title = 'Update Post'
-    return render_template('update_post.html', title = title, update_form = form, post = post)
+    elif request.method == 'GET':
+        form.post_title.data == post.title
+        form.post.data == post.post
+
+    return render_template('new_post.html',post_form = form, id = id)
 
 @main.route('/user/<uname>/update/pic',methods= ['POST'])
 @login_required
@@ -196,9 +197,3 @@ def single_comment(id):
         abort(404)
     format_comment = markdown2.markdown(comment.comment,extras=["code-friendly", "fenced-code-blocks"])
     return render_template('comment.html',comment = comment,format_comment=format_comment)
-
-@main.route('/subscription')
-def subscription():
-    
-
-    return render_template('index.html')

@@ -71,6 +71,8 @@ class Post(db.Model):
     posted = db.Column(db.DateTime,default=datetime.utcnow)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
 
+    comments = db.relationship("Comment", backref ="post_name", lazy = "dynamic")
+
 
     def save_post(self):
         db.session.add(self)
@@ -101,6 +103,7 @@ class Comment(db.Model):
     username = db.Column(db.String)
     posted = db.Column(db.DateTime,default=datetime.utcnow)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    post = db.Column(db.Integer, db.ForeignKey("posts.id"))
     
 
     def save_comment(self):
@@ -115,10 +118,16 @@ class Comment(db.Model):
         Comment.all_comments.clear()
 
     @classmethod
-    def get_comments(cls,id):
-        comments = Comment.query.filter_by(post_id=id).all()
+    def get_comments(cls,post):
+        comments = Comment.query.filter_by(post_name=post).all()
 
         return comments
+
+    @classmethod
+    def delete_comment(cls,id):
+       comment = Comment.query.filter_by(id=id).first()
+       db.session.delete(comment)
+       db.session.commit()
 
 class Email(db.Model):
     __tablename__='emails'

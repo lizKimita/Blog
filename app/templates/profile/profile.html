@@ -31,7 +31,7 @@
                               <a class="nav-link active" href="/post/new/comment/{{posts.id}}">Read Comments</a>
                             </li>
                             <li class="nav-item">
-                              <a class="nav-link" href="{{url_for('main.update_post',uname=user.username)}}">Edit post</a>
+                              <a class="nav-link" href="{{url_for('main.update_post',id=posts.id)}}">Edit post</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/delete_post/{{posts.id}}">Delete Post</a>
