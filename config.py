@@ -4,7 +4,7 @@ class Config:
     '''
     General configuration parent class
     '''
-    RANDOM_QUOTES_URL = 'http://quotes.stormconsultancy.co.uk/random.json'
+
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOADED_PHOTOS_DEST ='app/static/photos'
@@ -28,7 +28,7 @@ class ProdConfig(Config):
     Args:
         Config: The parent configuration class with General configuration settings
     '''
-    pass
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
 class TestConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://elizabeth:123@localhost/blog_test' 
